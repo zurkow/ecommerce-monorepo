@@ -1,0 +1,12 @@
+{
+  "name": "ecommerce-monorepo",
+  "private": true,
+  "description": "Root of the JS side of the monorepo. npm workspaces = Maven modules for JavaScript.",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "admin:dev": "npm run dev -w admin-panel",
+    "admin:build": "npm run build -w admin-panel"
+  }
+}

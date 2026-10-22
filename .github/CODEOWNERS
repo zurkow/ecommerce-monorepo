@@ -1,0 +1,13 @@
+# In a monorepo, CODEOWNERS replaces "who has access to which repo".
+# Each team still owns its folder and must approve PRs touching it.
+# (Replace the handles with real GitHub teams/users.)
+
+/services/user-service/     @your-org/identity-team
+/services/cart-service/     @your-org/shopping-team
+/services/order-service/    @your-org/shopping-team
+/services/payment-service/  @your-org/payments-team
+/apps/admin-panel/          @your-org/frontend-team
+
+# Shared code affects everyone -> platform team reviews it.
+/libs/                      @your-org/platform-team
+/pom.xml                    @your-org/platform-team

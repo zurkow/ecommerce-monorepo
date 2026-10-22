@@ -1,0 +1,27 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, sans-serif; background: #f5f6f8; color: #1f2937; }
+.layout { display: flex; min-height: 100vh; }
+nav { width: 200px; background: #1f2937; padding: 16px; display: flex; flex-direction: column; gap: 4px; }
+nav h1 { color: #fff; font-size: 18px; margin: 0 0 16px; }
+nav a { color: #cbd5e1; text-decoration: none; padding: 8px 10px; border-radius: 6px; }
+nav a.router-link-exact-active { background: #374151; color: #fff; }
+main { flex: 1; padding: 24px; min-width: 0; }
+h2 { margin-top: 0; }
+.card { background: #fff; border-radius: 8px; padding: 16px; margin-bottom: 16px; box-shadow: 0 1px 2px rgba(0,0,0,.06); overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 8px; border-bottom: 1px solid #e5e7eb; font-size: 14px; }
+th { color: #6b7280; font-weight: 600; }
+form { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+input, select { padding: 6px 8px; border: 1px solid #d1d5db; border-radius: 6px; }
+button { padding: 6px 12px; border: 0; border-radius: 6px; background: #2563eb; color: #fff; cursor: pointer; }
+button.secondary { background: #e5e7eb; color: #1f2937; }
+button.danger { background: #dc2626; }
+.error { background: #fee2e2; color: #991b1b; padding: 8px 12px; border-radius: 6px; margin-bottom: 12px; }
+.badge { padding: 2px 8px; border-radius: 999px; font-size: 12px; background: #e5e7eb; }
+.badge.PAID, .badge.APPROVED, .badge.DELIVERED { background: #dcfce7; color: #166534; }
+.badge.PAYMENT_FAILED, .badge.DECLINED, .badge.CANCELLED { background: #fee2e2; color: #991b1b; }
+.badge.SHIPPED, .badge.REFUNDED { background: #dbeafe; color: #1e40af; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
+.stat { font-size: 28px; font-weight: 700; }
+.muted { color: #6b7280; font-size: 13px; }
+td button + button { margin-left: 4px; }

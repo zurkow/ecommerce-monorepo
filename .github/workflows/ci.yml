@@ -1,0 +1,78 @@
+# Monorepo CI: one workflow for the whole repo, but each project is built ONLY when
+# something it depends on has changed. This is the key trick that keeps monorepo CI fast.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  # 1) Figure out which projects are affected by this change.
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      projects: ${{ steps.filter.outputs.changes }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          # Every service also depends on libs/common and the root pom.xml:
+          # change the shared lib -> ALL services are rebuilt and retested.
+          filters: |
+            user-service:
+              - 'services/user-service/**'
+              - 'libs/**'
+              - 'pom.xml'
+            cart-service:
+              - 'services/cart-service/**'
+              - 'libs/**'
+              - 'pom.xml'
+            order-service:
+              - 'services/order-service/**'
+              - 'libs/**'
+              - 'pom.xml'
+            payment-service:
+              - 'services/payment-service/**'
+              - 'libs/**'
+              - 'pom.xml'
+            admin-panel:
+              - 'apps/admin-panel/**'
+              - 'package.json'
+              - 'package-lock.json'
+
+  # 2) Build + test each affected Java service, in parallel.
+  service:
+    needs: changes
+    if: ${{ needs.changes.outputs.projects != '[]' && needs.changes.outputs.projects != '["admin-panel"]' }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project: ${{ fromJSON(needs.changes.outputs.projects) }}
+        exclude:
+          - project: admin-panel
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+      # -pl = only this project, -am = "also make" what it depends on (libs/common)
+      - run: mvn -B verify -pl services/${{ matrix.project }} -am
+
+  # 3) Build the Vue admin panel only if it changed.
+  admin-panel:
+    needs: changes
+    if: ${{ contains(needs.changes.outputs.projects, 'admin-panel') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run admin:build

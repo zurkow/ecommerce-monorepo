@@ -1,0 +1,33 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: order-service
+  datasource:
+    # Each service owns its OWN in-memory database (database-per-service pattern).
+    url: jdbc:h2:mem:orderdb;DB_CLOSE_DELAY=-1
+    username: sa
+    password: ""
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+  h2:
+    console:
+      enabled: true   # http://localhost:8083/h2-console  (JDBC URL: jdbc:h2:mem:orderdb)
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+# Where the other services live. Override with env vars, e.g. SERVICES_CART_URL=http://cart:8082
+services:
+  user:
+    url: http://localhost:8081
+  cart:
+    url: http://localhost:8082
+  payment:
+    url: http://localhost:8084
