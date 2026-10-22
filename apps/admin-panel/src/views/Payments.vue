@@ -16,7 +16,8 @@ const refund = (id) => run(() => api.payments.refund(id))
   <div v-if="error" class="error">{{ error }}</div>
   <div class="card">
     <table>
-      <tr><th>ID</th><th>Order</th><th>User</th><th>Amount</th><th>Status</th><th>Created</th><th></th></tr>
+      <thead><tr><th>ID</th><th>Order</th><th>User</th><th>Amount</th><th>Status</th><th>Created</th><th></th></tr></thead>
+      <tbody>
       <tr v-for="p in payments" :key="p.id">
         <td>{{ p.id }}</td>
         <td>#{{ p.orderId }}</td>
@@ -27,6 +28,7 @@ const refund = (id) => run(() => api.payments.refund(id))
         <td><button v-if="p.status === 'APPROVED'" class="danger" @click="refund(p.id)">Refund</button></td>
       </tr>
       <tr v-if="!payments.length"><td colspan="7" class="muted">No payments yet.</td></tr>
+      </tbody>
     </table>
   </div>
 </template>

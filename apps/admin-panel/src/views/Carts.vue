@@ -45,11 +45,13 @@ const checkout = (userId) => run(() => api.orders.checkout(userId))
     <strong>{{ userName(c.userId) }}</strong> — total {{ money(c.total) }}
     <button style="float: right" @click="checkout(c.userId)">Checkout</button>
     <table>
-      <tr><th>SKU</th><th>Name</th><th>Price</th><th>Qty</th><th></th></tr>
+      <thead><tr><th>SKU</th><th>Name</th><th>Price</th><th>Qty</th><th></th></tr></thead>
+      <tbody>
       <tr v-for="i in c.items" :key="i.sku">
         <td>{{ i.sku }}</td><td>{{ i.name }}</td><td>{{ money(i.unitPrice) }}</td><td>{{ i.quantity }}</td>
         <td><button class="secondary" @click="removeItem(c.userId, i.sku)">Remove</button></td>
       </tr>
+      </tbody>
     </table>
   </div>
 </template>

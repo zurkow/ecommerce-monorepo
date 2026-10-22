@@ -19,7 +19,8 @@ const setStatus = (id, status) => run(() => api.orders.setStatus(id, status))
   <div v-if="error" class="error">{{ error }}</div>
   <div class="card">
     <table>
-      <tr><th>ID</th><th>User</th><th>Items</th><th>Total</th><th>Status</th><th>Payment</th><th>Created</th><th></th></tr>
+      <thead><tr><th>ID</th><th>User</th><th>Items</th><th>Total</th><th>Status</th><th>Payment</th><th>Created</th><th></th></tr></thead>
+      <tbody>
       <tr v-for="o in orders" :key="o.id">
         <td>{{ o.id }}</td>
         <td>#{{ o.userId }}</td>
@@ -36,6 +37,7 @@ const setStatus = (id, status) => run(() => api.orders.setStatus(id, status))
         </td>
       </tr>
       <tr v-if="!orders.length"><td colspan="8" class="muted">No orders yet - check out a cart first.</td></tr>
+      </tbody>
     </table>
   </div>
 </template>

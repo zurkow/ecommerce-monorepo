@@ -7,6 +7,7 @@
   ],
   "scripts": {
     "admin:dev": "npm run dev -w admin-panel",
-    "admin:build": "npm run build -w admin-panel"
+    "admin:build": "npm run build -w admin-panel",
+    "admin:screenshots": "npm run screenshots -w admin-panel"
   }
 }

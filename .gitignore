@@ -15,3 +15,8 @@ dist/
 
 # local run logs
 .run/
+
+# Playwright output
+apps/admin-panel/screenshots/
+apps/admin-panel/test-results/
+apps/admin-panel/playwright-report/

@@ -47,7 +47,8 @@ const remove = (id) => run(() => api.users.remove(id))
   </div>
   <div class="card">
     <table>
-      <tr><th>ID</th><th>Email</th><th>Name</th><th>Role</th><th>Created</th><th></th></tr>
+      <thead><tr><th>ID</th><th>Email</th><th>Name</th><th>Role</th><th>Created</th><th></th></tr></thead>
+      <tbody>
       <tr v-for="u in users" :key="u.id">
         <td>{{ u.id }}</td>
         <td>{{ u.email }}</td>
@@ -59,6 +60,7 @@ const remove = (id) => run(() => api.users.remove(id))
           <button class="danger" @click="remove(u.id)">Delete</button>
         </td>
       </tr>
+      </tbody>
     </table>
   </div>
 </template>

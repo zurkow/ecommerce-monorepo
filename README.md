@@ -58,7 +58,7 @@ ecommerce-monorepo/
 │   ├── order-service/           ← Spring Boot app :8083 (calls user, cart, payment)
 │   └── payment-service/         ← Spring Boot app :8084 (fake gateway)
 ├── apps/
-│   └── admin-panel/             ← Vue 3 + Vite admin panel :5173
+│   └── admin-panel/             ← Vue 3 + Vite admin panel :5173 (+ e2e/ Playwright screenshots)
 ├── scripts/                     ← start-all / stop-all / demo
 └── .github/
     ├── workflows/ci.yml         ← builds ONLY affected projects
@@ -128,6 +128,10 @@ mvn verify
 # admin panel (in another terminal)
 npm install
 npm run admin:dev          # → http://localhost:5173
+
+# screenshot tour of the admin panel with Playwright (services must be running)
+npx playwright install chromium   # once
+npm run admin:screenshots         # → apps/admin-panel/screenshots/*.png
 
 # stop the services
 ./scripts/stop-all.sh
@@ -201,6 +205,10 @@ npm workspaces do the same for JS: `npm run build -w admin-panel`.
 2. Only affected services are built, each with `mvn -pl services/<name> -am verify`, in parallel.
 3. A change in `libs/**` or the root `pom.xml` marks **all** services as affected.
 4. The admin panel is built only if `apps/admin-panel/**` changed.
+5. On a **pull request** that touches the admin panel, the `admin-panel-screenshots` job starts
+   all 4 real services, clicks through the UI with **Playwright** (add to cart → checkout → order
+   → payment) and uploads the screenshots as the `admin-panel-screenshots` artifact of the run
+   (link in the job summary). Reviewers can see the UI change without running anything.
 
 So a typo fix in `cart-service` runs only cart-service tests, exactly like in your polyrepo
 world – but a change in a shared DTO automatically tests every consumer.
